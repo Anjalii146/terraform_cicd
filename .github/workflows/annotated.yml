@@ -1,0 +1,35 @@
+name: CI
+
+# TRIGGERS: When does this workflow run?
+on:
+  push:
+    branches:
+      - main        # Run when code is pushed to main
+
+  pull_request:
+    branches:
+      - main        # Run when a PR targets main
+
+# JOBS: Units of work executed by GitHub Actions
+jobs:
+  validate:
+
+    # Runner environment
+    runs-on: ubuntu-latest
+
+    # Sequence of steps to execute
+    steps:
+
+      # Step 1: Checkout repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      # Step 3: Validate Terraform configuration
+      - name: Validate
+        run: terraform validate
