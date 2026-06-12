@@ -42,9 +42,9 @@ jobs:
           git config user.email "ci@github-actions"
           git config user.name "GitHub Actions"
 
-          git add terraform.tfstate
-
-          git diff --staged --quiet || \
-          git commit -m "ci: update terraform state after apply [skip ci]"
-
-          git push
+          if [ -f terraform.tfstate ]; then
+            git add terraform.tfstate
+            git diff --staged --quiet || \
+            git commit -m "ci: update terraform state after apply [skip ci]"
+            git push
+          fi
